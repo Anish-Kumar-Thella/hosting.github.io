@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfitPlate - Food Stall Inventory Manager</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --secondary: #FF5722;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background-color: #3f9a43;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 5px 15px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: block;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            background-color: var(--primary);
+        }
+        
+        .section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .full-width {
+            grid-column: 1 / span 2;
+        }
+        
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        form input, form select, form button, form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        form button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        table th, table td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .alert {
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            text-align: center;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .stat-card h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .stat-card p {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        .status-connected {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .status-disconnected {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+            
+            .full-width {
+                grid-column: 1;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 8px 0;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ProfitPlate</h1>
+            <p class="subtitle">Food Stall Inventory & Cost Management System</p>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#" class="nav-link active" data-target="dashboard">Dashboard</a></li>
+                <li><a href="#" class="nav-link" data-target="add-dish">Add Dish</a></li>
+                <li><a href="#" class="nav-link" data-target="add-ingredient">Add Ingredient</a></li>
+                <li><a href="#" class="nav-link" data-target="record-sale">Record Sale</a></li>
+                <li><a href="#" class="nav-link" data-target="view-data">View Data</a></li>
+            </ul>
+        </nav>
+        
+        <section id="dashboard" class="section active">
+            <h2>Dashboard <span id="db-status" class="status-indicator status-connected">Connected to Database</span></h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Today's Sales</h3>
+                    <p>$<span id="today-sales">0.00</span></p>
+                </div>
+                <div class="stat-card">
+                    <h3>Today's Cost</h3>
+                    <p>$<span id="today-cost">0.00</span></p>
+                </div>
+                <div class="stat-card">
+                    <h3>Today's Profit</h3>
+                    <p>$<span id="today-profit">0.00</span></p>
+                </div>
+                <div class="stat-card">
+                    <h3>Most Popular Dish</h3>
+                    <p><span id="popular-dish">-</span></p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="add-dish" class="section">
+            <h2>Add New Dish</h2>
+            <form id="dish-form" action="add_dish.php" method="POST">
+                <div class="full-width">
+                    <label for="dish-name">Dish Name</label>
+                    <input type="text" id="dish-name" name="name" required>
+                </div>
+                <div>
+                    <label for="dish-price">Price ($)</label>
+                    <input type="number" id="dish-price" name="price" step="0.01" min="0" required>
+                </div>
+                <div>
+                    <label for="dish-cost">Cost ($)</label>
+                    <input type="number" id="dish-cost" name="cost" step="0.01" min="0" required>
+                </div>
+                <div class="full-width">
+                    <label for="dish-ingredients">Ingredients (comma separated)</label>
+                    <textarea id="dish-ingredients" name="ingredients" placeholder="e.g., rice, chicken, spices" rows="3" required></textarea>
+                </div>
+                <div class="full-width">
+                    <button type="submit">Add Dish</button>
+                </div>
+            </form>
+        </section>
+        
+        <section id="add-ingredient" class="section">
+            <h2>Add Ingredient</h2>
+            <form id="ingredient-form" action="add_ingredient.php" method="POST">
+                <div class="full-width">
+                    <label for="ingredient-name">Ingredient Name</label>
+                    <input type="text" id="ingredient-name" name="name" required>
+                </div>
+                <div>
+                    <label for="ingredient-price">Price per Unit ($)</label>
+                    <input type="number" id="ingredient-price" name="price_per_unit" step="0.01" min="0" required>
+                </div>
+                <div>
+                    <label for="ingredient-unit">Unit</label>
+                    <select id="ingredient-unit" name="unit" required>
+                        <option value="">Select Unit</option>
+                        <option value="kg">Kilogram (kg)</option>
+                        <option value="g">Gram (g)</option>
+                        <option value="lb">Pound (lb)</option>
+                        <option value="oz">Ounce (oz)</option>
+                        <option value="L">Liter (L)</option>
+                        <option value="ml">Milliliter (ml)</option>
+                        <option value="piece">Piece</option>
+                    </select>
+                </div>
+                <div class="full-width">
+                    <button type="submit">Add Ingredient</button>
+                </div>
+            </form>
+        </section>
+        
+        <section id="record-sale" class="section">
+            <h2>Record Sale</h2>
+            <form id="sale-form" action="record_sale.php" method="POST">
+                <div>
+                    <label for="sale-dish">Dish</label>
+                    <select id="sale-dish" name="dish_id" required>
+                        <option value="">Select a dish</option>
+                        <!-- Options will be populated by PHP -->
+                    </select>
+                </div>
+                <div>
+                    <label for="sale-quantity">Quantity</label>
+                    <input type="number" id="sale-quantity" name="quantity" min="1" value="1" required>
+                </div>
+                <div class="full-width">
+                    <button type="submit">Record Sale</button>
+                </div>
+            </form>
+        </section>
+        
+        <section id="view-data" class="section">
+            <h2>Sales History</h2>
+            <table id="sales-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Dish</th>
+                        <th>Quantity</th>
+                        <th>Revenue</th>
+                        <th>Cost</th>
+                        <th>Profit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated by PHP -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links and sections
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Show corresponding section
+                const target = this.getAttribute('data-target');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+        
+        // Simulate loading data (in a real app, this would fetch from your PHP backend)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate loading dishes for the sales form
+            setTimeout(() => {
+                const dishSelect = document.getElementById('sale-dish');
+                dishSelect.innerHTML = '<option value="">Select a dish</option>' +
+                    '<option value="1">Chicken Rice Bowl - $8.99</option>' +
+                    '<option value="2">Vegetable Stir Fry - $7.50</option>' +
+                    '<option value="3">Beef Burrito - $9.75</option>';
+                
+                // Simulate loading sales data
+                const salesTable = document.querySelector('#sales-table tbody');
+                salesTable.innerHTML = 
+                    '<tr><td>2023-10-25 12:30</td><td>Chicken Rice Bowl</td><td>2</td><td>$17.98</td><td>$6.50</td><td>$11.48</td></tr>' +
+                    '<tr><td>2023-10-25 13:15</td><td>Beef Burrito</td><td>1</td><td>$9.75</td><td>$3.80</td><td>$5.95</td></tr>';
+                
+                // Update dashboard stats
+                document.getElementById('today-sales').textContent = '27.73';
+                document.getElementById('today-cost').textContent = '10.30';
+                document.getElementById('today-profit').textContent = '17.43';
+                document.getElementById('popular-dish').textContent = 'Chicken Rice Bowl';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
