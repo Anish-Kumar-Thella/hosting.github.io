@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Box Selector</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .instructions {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .input-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        input {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            width: 100px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: #6a11cb;
+            outline: none;
+        }
+        
+        button {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .boxes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .box {
+            width: 100%;
+            aspect-ratio: 1;
+            background-color: white;
+            border: 2px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .box.selected {
+            background-color: #4CAF50;
+            border-color: #2E7D32;
+            color: white;
+        }
+        
+        .error {
+            color: #d32f2f;
+            margin-top: 10px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .counter {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 10px;
+            background-color: #e9f5e9;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .boxes-container {
+                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Number Box Selector</h1>
+            <p class="instructions">Enter a number between 1 and 150 to generate boxes. Click on any box to turn it green.</p>
+        </header>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label for="numberInput">Enter a number (1-150):</label>
+                <input type="number" id="numberInput" min="1" max="150" value="10">
+                <button id="generateBtn">Generate Boxes</button>
+            </div>
+            <p id="errorMsg" class="error">Please enter a number between 1 and 150.</p>
+        </div>
+        
+        <div id="counter" class="counter">Boxes selected: <span id="count">0</span></div>
+        
+        <div id="boxesContainer" class="boxes-container"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const numberInput = document.getElementById('numberInput');
+            const generateBtn = document.getElementById('generateBtn');
+            const boxesContainer = document.getElementById('boxesContainer');
+            const errorMsg = document.getElementById('errorMsg');
+            const counter = document.getElementById('counter');
+            const countElement = document.getElementById('count');
+            
+            let selectedCount = 0;
+            
+            // Generate boxes based on input value
+            function generateBoxes() {
+                const numBoxes = parseInt(numberInput.value);
+                
+                // Validate input
+                if (isNaN(numBoxes) || numBoxes < 1 || numBoxes > 150) {
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                
+                errorMsg.style.display = 'none';
+                boxesContainer.innerHTML = '';
+                selectedCount = 0;
+                countElement.textContent = '0';
+                counter.style.display = 'block';
+                
+                // Create boxes
+                for (let i = 1; i <= numBoxes; i++) {
+                    const box = document.createElement('div');
+                    box.className = 'box';
+                    box.textContent = i;
+                    
+                    // Add click event to toggle selection
+                    box.addEventListener('click', function() {
+                        this.classList.toggle('selected');
+                        
+                        // Update counter
+                        if (this.classList.contains('selected')) {
+                            selectedCount++;
+                        } else {
+                            selectedCount--;
+                        }
+                        
+                        countElement.textContent = selectedCount;
+                    });
+                    
+                    boxesContainer.appendChild(box);
+                }
+            }
+            
+            // Generate boxes when button is clicked
+            generateBtn.addEventListener('click', generateBoxes);
+            
+            // Also generate when Enter is pressed in the input field
+            numberInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    generateBoxes();
+                }
+            });
+            
+            // Generate initial boxes on page load
+            generateBoxes();
+        });
+    </script>
+</body>
+</html>
