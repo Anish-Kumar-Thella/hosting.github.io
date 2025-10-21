@@ -1,12 +1,3 @@
-
-#  Host Website On Browser
-
-To run Website, use the URL
-
-```bash
-https://anish-kumar-thella.github.io/hosting.github.io/["mention-folder-name"]
-```
-
 ## ONE TOOL👨🏻‍🎓
 
 ```bash
@@ -37,5 +28,10 @@ https://anish-kumar-thella.github.io/hosting.github.io/number_of_boxes
 https://anish-kumar-thella.github.io/hosting.github.io/profitplate
 ```
 
+## Github Profile Finder 🔎
+
+```bash
+https://luminous-pika-fa4cc3.netlify.app/
+```
 
 
