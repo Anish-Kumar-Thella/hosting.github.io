@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One Tool - Student Academic Helper</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo"><span>1</span> One Tool</div>
+    <div class="right-text">Student Academic Helper</div>
+  </div>
+
+  <!-- Menu -->
+  <div class="menu">
+    <button id="menuTodo"><i class="fas fa-check-square"></i> To-Do List</button>
+    <button id="menuCalc"><i class="fas fa-calculator"></i> Calculator</button>
+    <button id="menuConv"><i class="fas fa-exchange-alt"></i> Conversion Tool</button>
+    <button id="menuTimer"><i class="fas fa-clock"></i> Timer</button>
+    <button id="menuStrategy"><i class="fas fa-bullseye"></i> Strategy Timer</button>
+    <button id="menuNotes"><i class="fas fa-sticky-note"></i> Notes</button>
+    <button id="menuQuote"><i class="fas fa-quote-right"></i> Quote Generator</button>
+    <button id="menuCalendar"><i class="fas fa-calendar-alt"></i> Calendar</button>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero" id="heroSection">
+    <div class="circle">1</div>
+    <h1>Welcome to One Tool</h1>
+    <p>Your all-in-one academic helper. Choose a tool from the menu above to get started with your studies.</p>
+  </div>
+
+  <!-- Tools Grid -->
+  <div class="tools" id="toolsGrid">
+    <div class="tool-card" id="cardTodo"><i class="fas fa-check-square"></i><p>To-Do List</p></div>
+    <div class="tool-card" id="cardCalc"><i class="fas fa-calculator"></i><p>Calculator</p></div>
+    <div class="tool-card" id="cardConv"><i class="fas fa-exchange-alt"></i><p>Conversion Tool</p></div>
+    <div class="tool-card" id="cardTimer"><i class="fas fa-clock"></i><p>Timer</p></div>
+    <div class="tool-card" id="cardStrategy"><i class="fas fa-bullseye"></i><p>Strategy Timer</p></div>
+    <div class="tool-card" id="cardNotes"><i class="fas fa-sticky-note"></i><p>Notes</p></div>
+    <div class="tool-card" id="cardQuote"><i class="fas fa-quote-right"></i><p>Quote Generator</p></div>
+    <div class="tool-card" id="cardCalendar"><i class="fas fa-calendar-alt"></i><p>Calendar</p></div>
+  </div>
+
+  <!-- To-Do List -->
+  <div class="todo-container" id="todoContainer">
+    <h2>To-Do List</h2>
+    <div class="todo-input">
+      <input type="text" id="taskInput" placeholder="Add a new task...">
+      <button id="addTaskBtn" type="button">+ Add</button>
+    </div>
+    <ul class="todo-list" id="todoList"></ul>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">0% completed</div>
+  </div>
+
+  <!-- Calculator -->
+  <div class="calculator-container" id="calcContainer">
+    <h2>Calculator</h2>
+    <div class="calculator-display" id="calcDisplay">0</div>
+    <div class="calculator-buttons">
+      <button class="clear">C</button>
+      <button class="operator">/</button>
+      <button class="operator">*</button>
+      <button class="operator">-</button>
+      <button>7</button><button>8</button><button>9</button><button class="operator">+</button>
+      <button>4</button><button>5</button><button>6</button><button>.</button>
+      <button>1</button><button>2</button><button>3</button><button class="equals">=</button>
+      <button class="zero">0</button>
+    </div>
+  </div>
+
+  <!-- Conversion Tool -->
+  <div class="conv-container" id="convContainer">
+    <h2>Conversion Tool</h2>
+    <div class="conv-inputs">
+      <input type="number" id="convInput" placeholder="Enter value">
+      <select id="convCategory">
+        <option value="length">Length</option>
+        <option value="temperature">Temperature</option>
+        <option value="weight">Weight</option>
+      </select>
+      <select id="convFrom"></select>
+      <select id="convTo"></select>
+      <button id="convertBtn">Convert</button>
+    </div>
+    <div class="conv-result" id="convResult">Result will appear here</div>
+  </div>
+
+  <!-- Timer -->
+  <div class="timer-container" id="timerContainer">
+    <h2>Timer</h2>
+    
+    <!-- Tabs -->
+    <div class="tab-buttons">
+      <button id="tabTimer" class="active">Timer</button>
+      <button id="tabStopwatch">Stopwatch</button>
+    </div>
+
+    <!-- Display -->
+    <div class="timer-display" id="timeDisplay">25:00</div>
+    <div class="timer-progress-bar"><div class="timer-progress-fill" id="timerProgress"></div></div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button id="startBtn">▶ Start</button>
+      <button id="stopBtn">■ Pause</button>
+      <button id="resetBtn">⟲ Reset</button>
+    </div>
+
+    <!-- Set Timer -->
+    <div class="set-timer">
+      <h3>Set Timer</h3>
+      <label>Minutes: <input type="number" id="minutesInput" value="25"></label>
+      <label>Seconds: <input type="number" id="secondsInput" value="0"></label>
+      <div class="presets">
+        <button data-min="5">5 min</button>
+        <button data-min="10">10 min</button>
+        <button data-min="15">15 min</button>
+        <button data-min="25">25 min</button>
+        <button data-min="30">30 min</button>
+        <button data-min="60">1 hour</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strategy Timer -->
+  <div class="strategy-container" id="strategyContainer">
+    <h2>Strategy Timer</h2>
+
+    <!-- Technique Selection -->
+    <div class="strategy-options">
+      <button id="pomodoroBtn" class="strategy active">
+        <h3>Pomodoro Technique</h3>
+        <p>25min work, 5min break, longer break every 4 cycles</p>
+      </button>
+      <button id="triangleBtn" class="strategy">
+        <h3>Triangle Technique</h3>
+        <p>45min work, 15min break, perfect for deep focus</p>
+      </button>
+    </div>
+
+    <!-- Timer Display -->
+    <div class="timer-box">
+      <h3 id="phaseLabel">🎯 Focus Time</h3>
+      <div id="strategyTime" class="big-time">25:00</div>
+      <div class="strategy-progress"><div id="strategyProgress"></div></div>
+      <div class="strategy-controls">
+        <button id="strategyStartBtn">▶ Start</button>
+        <button id="strategyResetBtn">⟲ Reset</button>
+      </div>
+      <div class="stats">
+        <p><span id="completedCycles">0</span> Completed Cycles</p>
+        <p><span id="workSessions">0</span> Work Sessions</p>
+      </div>
+    </div>
+
+    <!-- Current Strategy Info -->
+    <div class="strategy-info">
+      <h3>⏱ Current Strategy</h3>
+      <p id="strategyDetails"></p>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="notes-container" id="notesContainer">
+    <h2>PDF Notes</h2>
+    <div class="notes-actions">
+      <input type="file" id="pdfUpload" accept=".pdf" style="display: none;">
+      <label for="pdfUpload" class="upload-label">📁 Upload PDF</label>
+      <button id="downloadPdfBtn">⬇️ Download PDF</button>
+    </div>
+    <div class="pdf-viewer" id="pdfViewer">
+      <p>Upload a PDF to view it here</p>
+    </div>
+  </div>
+
+  <!-- Quote Generator -->
+  <div class="quote-container" id="quoteContainer">
+    <h2>Quote Generator</h2>
+    <div class="quote-text" id="quoteText">"Click the button to generate a motivational quote!"</div>
+    <div class="quote-author" id="quoteAuthor">- One Tool</div>
+    
+    <div class="quote-controls">
+      <button id="newQuoteBtn">New Quote</button>
+      <button id="addFavoriteBtn">Add to Favorites</button>
+    </div>
+    
+    <div class="quote-stats">
+      <div class="stat-box">
+        <div class="stat-number" id="totalQuotes">0</div>
+        <div>Quotes Generated</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="favoriteQuotes">0</div>
+        <div>Favorite Quotes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendar -->
+  <div class="calendar-container" id="calendarContainer">
+    <h2>Calendar & Reminders</h2>
+    
+    <div class="calendar">
+      <div class="calendar-header">
+        <div class="calendar-nav">
+          <button id="prevMonthBtn"><i class="fas fa-chevron-left"></i></button>
+          <button id="todayBtn">Today</button>
+          <button id="nextMonthBtn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="calendar-title" id="currentMonth">September 2025</div>
+      </div>
+      
+      <div class="calendar-grid" id="calendarGrid">
+        <!-- Calendar will be generated here -->
+      </div>
+    </div>
+    
+    <div class="reminder-form">
+      <h3>Add Reminder for <span id="selectedDate"></span></h3>
+      <input type="text" id="reminderTitle" placeholder="Reminder title">
+      <textarea id="reminderDescription" placeholder="Reminder description" rows="3"></textarea>
+      <button id="addReminderBtn">Add Reminder</button>
+    </div>
+    
+    <div class="reminder-list" id="reminderList">
+      <!-- Reminders will be displayed here -->
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
